@@ -64,25 +64,24 @@ const galleryItems = [
   },
 ];
 
-
-const galleryList = document.querySelector('.js-gallery')
-const modal = document.querySelector('.js-lightbox')
-const modalOverlay = document.querySelector('.lightbox__overlay')
-const modalContent = document.querySelector('.lightbox__content')
-const modalImage = document.querySelector('.lightbox__image')
-const closeModalButton = document.querySelector('.lightbox__button')
+const galleryList = document.querySelector('.js-gallery');
+const modal = document.querySelector('.js-lightbox');
+const modalOverlay = document.querySelector('.lightbox__overlay');
+const modalContent = document.querySelector('.lightbox__content');
+const modalImage = document.querySelector('.lightbox__image');
+const closeModalButton = document.querySelector('.lightbox__button');
 const newGallary = createGallery(galleryItems);
 
-galleryList.insertAdjacentHTML('afterbegin', newGallary)
+galleryList.insertAdjacentHTML('afterbegin', newGallary);
 
-
-function createGallery(images){
-return images.map(({preview, original, description}) => {
-return `<li class="gallery__item">
+function createGallery(images) {
+  return images
+    .map(({ preview, original, description }) => {
+      return `<li class="gallery__item">
   <a
     class="gallery__link"
     href=${original}
-  >
+    >
     <img
       class="gallery__image"
       src=${preview}
@@ -90,46 +89,39 @@ return `<li class="gallery__item">
       alt=${description}
     />
   </a>
-</li>`
-}).join('')
+</li>`;
+    })
+    .join('');
 }
 
-galleryList.addEventListener('click', openModal)
+galleryList.addEventListener('click', openModal);
 
-function openModal (event){
+function openModal(event) {
   event.preventDefault();
-console.log(galleryList);
-const isImgEl = event.target.classList.contains('gallery__image')
+  const isImgEl = event.target.classList.contains('gallery__image');
 
-  if(!isImgEl){
-    return
+  if (!isImgEl) {
+    return;
   }
-
-    modal.classList.add('is-open')
-    modalImage.src =  event.target.dataset.source
-    modalImage.alt = event.target.alt
-
-
+  modal.classList.add('is-open');
+  modalImage.src = event.target.dataset.source;
+  modalImage.alt = event.target.alt;
 }
 
+closeModalButton.addEventListener('click', closeModal);
+modalOverlay.addEventListener('click', closeModal);
 
-closeModalButton.addEventListener('click', closeModal)
-modalOverlay.addEventListener('click', closeModal)
-
-
-document.addEventListener('keydown', event => {
-  if(modal.classList.contains('is-open')){
-    if(event.key === 'Escape'){
-      closeModal()
+document.addEventListener('keydown', (event) => {
+  if (modal.classList.contains('is-open')) {
+    if (event.key === 'Escape') {
+      closeModal();
     }
   }
-})
+});
 
-
-
-function closeModal (event){
+function closeModal(event) {
   event.preventDefault();
-  modal.classList.remove('is-open')
-  modalImage.src =  ''
-  modalImage.alt = ''
+  modal.classList.remove('is-open');
+  modalImage.src = '';
+  modalImage.alt = '';
 }
